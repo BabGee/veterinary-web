@@ -1,5 +1,4 @@
-* LOGIN_REDIRECT_URL, LOGIN_URL --> settings.py
-* modify Vet_Officer class
+
 
 Make env variables SECRET_KEY, DEBUG, ALLOWED_HOSTS, DATABASE --> pip install decouple
 
