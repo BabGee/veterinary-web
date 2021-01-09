@@ -1,0 +1,48 @@
+{% extends 'portals/base.html' %}
+
+{% load static %}
+
+{% block title %} Dimix Traders | Refferal Link {% endblock %}
+
+{% block content %}
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                <div class="panel panel-bd cardbox">
+                    <div class="panel-body">
+                        <div class="statistic-box">
+                            <h2><span class="count-number">{{ref_link}}</span>
+                            </h2>
+                        </div>
+                        <div class="items pull-left">
+                            <i class="fa fa-users fa-2x"></i>
+                            <h4>Refferal Link </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <div class="row">
+
+            <!-- datamap -->
+            <!-- Basic data map -->
+            <div class="col-xs-12 col-sm-6">
+                <div class="panel panel-bd lobidrag">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h4>Google Map</h4>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="embed-container">
+                            <div style="width: 100%"><iframe width="100%" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=450&amp;hl=en&amp;q=Mombasa%20Road+(Dimix%20Traders)&amp;t=&amp;z=6&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe><a href="http://www.gps.ie/">Get GPS coordinates</a></div>
+                            <!-- <iframe src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387144.0075834208!2d-73.97800349999999!3d40.7056308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew+York%2C+NY!5e0!3m2!1sen!2sus!4v1394298866288' width='600' height='450' style='border:0'></iframe> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /.row -->
+    </section> 
+
+{% endblock content %}    }

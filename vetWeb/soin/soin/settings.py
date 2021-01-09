@@ -31,10 +31,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # My apps
     'vet.apps.VetConfig',
     'user.apps.UserConfig',
     'portals.apps.PortalsConfig',
+
+    # Third party packages
     'crispy_forms',
+
+    # Django defaults
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

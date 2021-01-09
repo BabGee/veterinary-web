@@ -7,7 +7,7 @@ def portal_vet(request):
     context = {
         'all_vets': vet_officers
     }
-    return render(request, 'portals/index_vet.html', context)
+    return render(request, 'portals/indexvet.html', context)
 
 
 def portal_farmer(request):
@@ -15,7 +15,7 @@ def portal_farmer(request):
     context = {
         'all_vets': vet_officers
     }
-    return render(request, 'portals/index_farmer.html', context)
+    return render(request, 'portals/indexfarmer.html', context)
 
 
 
@@ -24,4 +24,4 @@ def portal_student(request):
     context = {
         'all_vets': vet_officers
     }
-    return render(request, 'portals/index_student.html', context)       
+    return render(request, 'portals/indexstudent.html', context)       

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
-from .models import Vet_Officer, Farmer, Student
+from .models import Vet_Officer, Farmer, Student, Vet_Forms, Sick_Approach_Form, Farm
 
 User = get_user_model()
 
@@ -13,8 +13,8 @@ class VetOfficerSignUpForm(UserCreationForm):
 		required=True,
 		widget=forms.TextInput(
 				attrs={
-					"placeholder": "First Name",
-					"class": "form-control"
+					'placeholder': 'First Name',
+					'class': 'form-control'
 				}
 			)
 		)
@@ -23,8 +23,8 @@ class VetOfficerSignUpForm(UserCreationForm):
 		required=True,
 		widget=forms.TextInput(
 				attrs={
-					"placeholder": "Last Name",
-					"class": "form-control"
+					'placeholder': 'Last Name',
+					'class': 'form-control'
 				}
 			)
 		)
@@ -33,8 +33,8 @@ class VetOfficerSignUpForm(UserCreationForm):
 		max_length=254,
 		widget=forms.EmailInput(
 			attrs={
-				"placeholder": "Email",
-				"class": "form-control"
+				'placeholder': 'Email',
+				'class': 'form-control'
 			}
 		)
 	)
@@ -48,8 +48,8 @@ class VetOfficerSignUpForm(UserCreationForm):
 		required=True,
 		widget=forms.PasswordInput(
 			attrs={
-				"placeholder": "Password",
-				"class": "form-control"
+				'placeholder': 'Password',
+				'class': 'form-control'
 			}
 		)
 	)
@@ -61,8 +61,8 @@ class VetOfficerSignUpForm(UserCreationForm):
 		required=True,
 		widget=forms.PasswordInput(
 			attrs={
-				"placeholder": "Confirm Password",
-				"class": "form-control"
+				'placeholder': 'Confirm Password',
+				'class': 'form-control'
 			}
 		)
 	)
@@ -92,8 +92,8 @@ class FarmerSignUpForm(UserCreationForm):
 		required=True,
 		widget=forms.TextInput(
 				attrs={
-					"placeholder": "First Name",
-					"class": "form-control"
+					'placeholder': 'First Name',
+					'class': 'form-control'
 				}
 			)
 		)
@@ -102,8 +102,8 @@ class FarmerSignUpForm(UserCreationForm):
 		required=True,
 		widget=forms.TextInput(
 				attrs={
-					"placeholder": "Last Name",
-					"class": "form-control"
+					'placeholder': 'Last Name',
+					'class': 'form-control'
 				}
 			)
 		)
@@ -114,7 +114,8 @@ class FarmerSignUpForm(UserCreationForm):
 
 	class Meta(UserCreationForm.Meta):
 		model = User
-		fields = ["username","first_name","last_name","farm_name","email", "location","password1", "password2"]	
+		fields = ['username','first_name','last_name','farm_name','email', 'location','password1', 'password2']
+			
 	@transaction.atomic
 	def save(self):
 		user = super().save(commit=False)
@@ -137,8 +138,8 @@ class StudentSignUpForm(UserCreationForm):
 		required=True,
 		widget=forms.TextInput(
 				attrs={
-					"placeholder": "First Name",
-					"class": "form-control"
+					'placeholder': 'First Name',
+					'class': 'form-control'
 				}
 			)
 		)
@@ -147,8 +148,8 @@ class StudentSignUpForm(UserCreationForm):
 		required=True,
 		widget=forms.TextInput(
 				attrs={
-					"placeholder": "Last Name",
-					"class": "form-control"
+					'placeholder': 'Last Name',
+					'class': 'form-control'
 				}
 			)
 		)
@@ -160,7 +161,7 @@ class StudentSignUpForm(UserCreationForm):
 
 	class Meta(UserCreationForm.Meta):
 		model = User
-		fields = ["username","first_name","last_name","student_number","college_name", "phone_number", "email", "location","password1", "password2"]	
+		fields = ['username','first_name','last_name','student_number','college_name', 'phone_number', 'email', 'location','password1', 'password2']	
 
 	@transaction.atomic
 	def save(self):
@@ -178,16 +179,23 @@ class StudentSignUpForm(UserCreationForm):
 		student.save()
 		return user
 
+FARM_NAMES = []
+for farm in Farm.objects.all():
+	...
+
+
+
+#FARM_NAMES = ([])
 
 SPECIES_CHOICES = (
-    ('C', 'cattle'),
-    ('S', 'sheep'),
-	('g', 'goat'),
-	('dk', 'donkey'),
-	('d', 'dog'),
-	('h', 'horse'),
-	('p', 'poulry'),
-	('O','others')
+    ('0', 'cattle'),
+    ('1', 'sheep'),
+	('2', 'goat'),
+	('3', 'donkey'),
+	('4', 'dog'),
+	('5', 'horse'),
+	('6', 'poulry'),
+	('7','others')
 )
 
 SPECIES_TARGETTED = (
@@ -280,13 +288,10 @@ PICK_REPORT=(
 )
 
 class SickApproachForm(forms.Form):
-	farm_name = forms.CharField(required=True)
+	farm_name = forms.ModelChoiceField(queryset=Farm.objects.distinct())
 	species_affected = forms.ChoiceField(widget=forms.RadioSelect, choices=SPECIES_CHOICES)	
-	sex = forms.ChoiceField(widget=forms.RadioSelect, choices=SEX_CHOICES)	
-	age = forms.IntegerField(required=False)
-	num_animals = forms.IntegerField(required=False)
-	nature_disease =forms.ChoiceField(widget=forms.RadioSelect,choices=DISEASE_CHOICES)
-	animal_name_identification_number = forms.CharField(required=True)
+	num_of_species_affected = forms.IntegerField(required=False)
+	nature_of_disease = forms.ChoiceField(widget=forms.RadioSelect,choices=DISEASE_CHOICES)
 	clinical_sign = forms.CharField(required=True)
 	disease_diagnosis = forms.ChoiceField(widget=forms.RadioSelect, choices=DIAGNOSIS_CHOICES)
 	differential_diagnosis = forms.CharField(required=False)
@@ -295,17 +300,18 @@ class SickApproachForm(forms.Form):
 	sickness_history = forms.CharField(required=False)
 	drug_choice = forms.CharField(required=True)
 	treatment_duration = forms.CharField(required=False)
-	start_dose_date = forms.CharField(required=True)
+	start_dose_date = forms.DurationField(required=True)
 	prognosis = forms.ChoiceField(widget=forms.RadioSelect,choices=PROGNOSIS_CHOICES)
-	Were_the_pathological_conditions_in_harmony_with_the_clinical_signs_and_laboratory_reports = forms.ChoiceField(widget=forms.RadioSelect, choices=PICK_CHOICES)
-	If_no_What_could_the_cause_of_the_dead = forms.CharField(required=False)
-	Is_the_desease_one_of_the_zoonotic = forms.CharField(required=False)
-	If_yes_what_advice_did_you_give_the_owner_and_the_people_who_have_handle_the_carcass = forms.CharField(required=False)
-	When_was_the_animal_reported = forms.ChoiceField(widget=forms.RadioSelect, choices=PICK_REPORT)
-	Was_there_any_relapse = forms.ChoiceField(widget=forms.RadioSelect, choices=PICK_CHOICES)
-	If_yes_what_might_be_the_cause = forms.CharField(required=False)
-class DeadApproachForm(forms.Form):
+	pathological_conditions_in_harmony_with_the_clinic_signs_and_lab_reports = forms.ChoiceField(widget=forms.RadioSelect, choices=PICK_CHOICES)
+	cause_of_the_death_if_no = forms.CharField(required=False)
+	disease_zoonotic = forms.CharField(required=False)
+	advice_given_if_zoonotic= forms.CharField(required=False)
+	relapse = forms.ChoiceField(widget=forms.RadioSelect, choices=PICK_CHOICES)
+	cause_if_relapse = forms.CharField(required=False)
+	
 
+	
+class DeadApproachForm(forms.Form):
 	farm_name = forms.CharField(required=True)
 	species_affected = forms.ChoiceField(widget=forms.RadioSelect, choices=SPECIES_CHOICES)	
 	sex_of_the_animal= forms.ChoiceField(widget=forms.RadioSelect, choices=SEX_CHOICES)	
@@ -324,8 +330,6 @@ class DeadApproachForm(forms.Form):
 	Is_the_cause_of_dead_notifiable = forms.ChoiceField(widget=forms.RadioSelect, choices=PICK_CHOICES)
 	IF_yes_send_message_to_relevant_body = forms.CharField(required=False)
 	What_were_the_necessary_intervention_in_regard_to_the_cause_of_the_dead = forms.CharField(required=False)
-	
-
 
 class SurgicalApproachForm(forms.Form):
 	farm_name = forms.CharField(required=True)
@@ -366,7 +370,6 @@ class DewormingForm(forms.Form):
 	Mobile_number = forms.IntegerField(required=True)
 	comment = forms.CharField(required=False)
 	
-
 class vaccination_form(forms.Form):
 	species_targetted = forms.ChoiceField(widget=forms.RadioSelect, choices=SPECIES_CHOICES)
 	If_other_specify = forms.CharField(required=False)
@@ -420,7 +423,6 @@ class ArtificialInseminationForm(forms.Form):
 	Name_of_the_inseminator = forms.CharField(required=True)
 	Registration_number = forms.IntegerField(required=True)
 
-
 class CalfRegistrationForm(forms.Form):
 	Date_of_birth = forms.IntegerField(required=True)
 	Sex_of_the_calf = forms.CharField(required=True)
@@ -433,9 +435,6 @@ class CalfRegistrationForm(forms.Form):
 	Breeching_level_of_the_calf = forms.ChoiceField(widget=forms.RadioSelect, choices=BREECHING_LEVEL)
 	Give_the_sire_details = forms.CharField(required=False)
 	Expected_date_of_weaning = forms.CharField(required=False)
-
-
-
 
 class LivestockInventoryForm(forms.Form):
 	species_targetted = forms.ChoiceField(widget=forms.RadioSelect, choices=SPECIES_CHOICES)
@@ -453,8 +452,6 @@ class LivestockInventoryForm(forms.Form):
 	Attach_photos_of_your_animal = forms.CharField(required=True)
 	Who_normally_treat_your_animals = forms.CharField(required=True)
 	Give_the_name_of_the_veterinary_offier_in_charge_of_your_livestock = forms.CharField(required=True)
-
-
 class FarmConsultationForm(forms.Form):
 	Name_of_the_farm = forms.CharField(required=True)
 	Name_of_the_owner = forms.CharField(required=True)

@@ -22,18 +22,20 @@ from portals import views as portal_views
 urlpatterns = [
     path('', include('vet.urls')),
     path('admin/', admin.site.urls),
-    #path('vet_register/', user_views.register_vet, name='vet-register'),
+    #users sign up
     path('user/signup/vet_officer/', user_views.VetOfficerSignUpView.as_view(), name='vet-register'),
     path('user/signup/farmer/',user_views.FarmerSignUpView.as_view(),name='farmer_register'),
     path('user/signup/student/',user_views.StudentSignUpView.as_view(),name='student_register'),
-    #path('login', auth_views.LoginView.as_view(template_name='user/login.html'), name='login'),
-    #path('vet_login/',user_views.vet_sign_in,name='vet_login'),
-    path('login/',user_views.user_login,name='login'),
+    #users login 
+    path('user/login/',user_views.user_login,name='login'),
     path('logout/',auth_views.LogoutView.as_view(template_name='user/logout.html'),name='logout'),
+    #users portals
     path('vet_portal/', portal_views.portal_vet, name='vet-portal'),
     path('farmer_portal/', portal_views.portal_farmer, name='farmer-portal'),
     path('student_portal/', portal_views.portal_student, name='student-portal'),
+    #vet forms
     path('clinical_approach/',user_views.clinical_approach,name='clinical-approach'),
+    #path('sick_approach', user_views.SickApproachFormView.as_view(), name='sick-approach'),
     path('sick_approach', user_views.sick_approach, name='sick-approach'),
     path('dead_approach', user_views.dead_approach, name='dead-approach'),
     path('surgical_approach',user_views.surgical_approach, name='surgical-approach'),

@@ -1,0 +1,97 @@
+{% extends 'portals/base.html' %}
+
+{% block content %}
+            <!-- =============================================== -->
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="header-icon"><i class="pe-7s-user-female"></i></div>
+                    <div class="header-title">
+                        <!-- <form action="#" method="get" class="sidebar-form search-box pull-right hidden-md hidden-lg hidden-sm">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button type="submit" name="search" id="search-btn" class="btn"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
+                        </form> -->
+                        <h1>{{ user.username }} Profile</h1>
+                        <small>Profile Details of {{ user.username }}</small>
+                        <!-- <ol class="breadcrumb hidden-xs">
+                            <li><a href="{% url 'index' %}"><i class="pe-7s-home"></i>Home</a></li>
+                            <li><a href="#">UI Elements</a></li>
+                            <li class="active">Profile</li>
+                        </ol> -->
+                    </div>
+                </section>
+                <!-- Main content -->
+                <section class="content">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <!-- <div class="card-header-headshot"></div> -->
+                                    <img class="card-header-headshot" src="{{user.profile.image.url}}" alt="User-image">
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-content-member">
+                                        <h4 class="m-t-0">{{user.username}}</h4>
+                                        <p class="m-0"><i class="pe-7s-map-marker"></i>Nairobi</p>
+                                    </div>
+                                    <div class="card-content-languages">
+                                        <div class="card-content-languages-group">
+                                            <div>
+                                                <h4>Referral Link: {{user.profile.referral.url}}</h4>
+                                            </div>
+                                            <div>
+                                                <ul>
+                                                    <li>
+                                                        <div class="fluency fluency-4"></div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card-content-languages-group">
+                                            <div>
+                                                <h4>Total Referrals:</h4>
+                                            </div>
+                                            <div>
+                                                <ul>
+                                                    <li>0</li>
+                                                    <!-- <li>Russian,</li>
+                                                    <li>German</li> -->
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="card-content-summary">
+                                        <p>Specialties are Creative UI, HTML5, CSS3, Semantic Web, Responsive Layouts, Web Standards Compliance, Performance Optimization, Cross Device Troubleshooting.</p>
+                                    </div> -->
+                                </div>
+                                <div class="card-footer">
+                                    <div class="card-footer-stats">
+                                        <div>
+                                            <p>Balance:</p><i class="fa fa-users"></i><span>KSH: 0</span>
+                                        </div>
+                                        <div>
+                                            <p>Referrals:</p><i class="fa fa-coffee"></i><span> 0 </span>
+                                        </div>
+                                        <div>
+                                            <p>Withdrawals:</p><i class="fa fa-users"></i><span>KSH: 0</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer-message">
+                                        <h4 class="active">Referral Link:
+                                            <a href="{{ user.profile.referral.url }}">
+                                                {{ user.profile.referral.url }}
+                                            </a> </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section> <!-- /.content -->
+            </div>
+
+{% endblock content %}            

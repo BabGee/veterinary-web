@@ -1,0 +1,9 @@
+* LOGIN_REDIRECT_URL, LOGIN_URL --> settings.py
+* modify Vet_Officer class
+
+Make env variables SECRET_KEY, DEBUG, ALLOWED_HOSTS, DATABASE --> pip install decouple
+
+user app
+    Create user logins for vet_officer, student, farmer - modify AuthenticationForm() --> forms.py
+    forms.py --> VetOfficerSignUpForm.kvb_number-RegexField()
+    admin.py --> Vet_Officer, Farmer, Student Admin(admin.ModelAdmin) 
