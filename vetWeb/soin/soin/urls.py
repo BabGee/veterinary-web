@@ -21,7 +21,7 @@ from portals import views as portal_views
 
 urlpatterns = [
     path('', include('vet.urls')),
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin-vet'),
     #users sign up
     path('user/signup/vet_officer/', user_views.VetOfficerSignUpView.as_view(), name='vet-register'),
     path('user/signup/farmer/',user_views.FarmerSignUpView.as_view(),name='farmer_register'),

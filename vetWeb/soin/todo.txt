@@ -1,6 +1,5 @@
 
-
-Make env variables SECRET_KEY, DEBUG, ALLOWED_HOSTS, DATABASE --> pip install decouple
+edit navbar for logged in users
 
 user app
     Create user logins for vet_officer, student, farmer - modify AuthenticationForm() --> forms.py
