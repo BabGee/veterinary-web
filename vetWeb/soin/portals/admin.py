@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Vet_Forms, Sick_Approach_Form
+
+admin.site.register(Vet_Forms)
+admin.site.register(Sick_Approach_Form)

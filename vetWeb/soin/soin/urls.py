@@ -19,6 +19,9 @@ from django.urls import path, include
 from user import views as user_views
 from portals import views as portal_views
 
+from django.conf.urls.static import static
+from django.conf import settings
+
 urlpatterns = [
     path('', include('vet.urls')),
     path('admin/', admin.site.urls, name='admin-vet'),
@@ -34,17 +37,20 @@ urlpatterns = [
     path('farmer_portal/', portal_views.portal_farmer, name='farmer-portal'),
     path('student_portal/', portal_views.portal_student, name='student-portal'),
     #vet forms
-    path('clinical_approach/',user_views.clinical_approach,name='clinical-approach'),
+    path('clinical_approach/',portal_views.clinical_approach,name='clinical-approach'),
     #path('sick_approach', user_views.SickApproachFormView.as_view(), name='sick-approach'),
-    path('sick_approach', user_views.sick_approach, name='sick-approach'),
-    path('dead_approach', user_views.dead_approach, name='dead-approach'),
-    path('surgical_approach',user_views.surgical_approach, name='surgical-approach'),
-    path('deworming',user_views.deworming,name='deworming'),
-    path('vaccination',user_views.vaccination,name='vaccination'),
-    path('breeding_record/',user_views.breeding_record,name='breeding_record'),
-    path('artificial_insemination', user_views.artificial_insemination, name='artificial-insemination'),
-    path('pregnancy_diagnosis',user_views.pregnancy_diagnosis,name='pregnancy_diagnosis'),
-    path('calf_registration', user_views.calf_registration, name='calf-registration'),
-    path('livestock_inventory', user_views.livestock_inventory, name='livestock-inventory'),
-    path('consultation',user_views.consultation,name='consultation')
+    path('sick_approach', portal_views.sick_approach, name='sick-approach'),
+    path('dead_approach', portal_views.dead_approach, name='dead-approach'),
+    path('surgical_approach',portal_views.surgical_approach, name='surgical-approach'),
+    path('deworming',portal_views.deworming,name='deworming'),
+    path('vaccination',portal_views.vaccination,name='vaccination'),
+    path('breeding_record/',portal_views.breeding_record,name='breeding_record'),
+    path('artificial_insemination', portal_views.artificial_insemination, name='artificial-insemination'),
+    path('pregnancy_diagnosis',portal_views.pregnancy_diagnosis,name='pregnancy_diagnosis'),
+    path('calf_registration', portal_views.calf_registration, name='calf-registration'),
+    path('livestock_inventory', portal_views.livestock_inventory, name='livestock-inventory'),
+    path('consultation',portal_views.consultation,name='consultation')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
