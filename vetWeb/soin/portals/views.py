@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from user.models import Vet_Officer
-
+from .forms import SickApproachForm, DeathApproachForm, SurgicalApproachForm, DewormingForm, VaccinationForm, ArtificialInseminationForm, CalfRegistrationForm, LivestockInventoryForm, PregnancyDiagnosisForm
+from django.contrib import messages
+from portals.models import Vet_Forms
 
 def portal_vet(request):
     vet_officers = Vet_Officer.objects.all()
@@ -18,7 +20,6 @@ def portal_farmer(request):
     return render(request, 'portals/indexfarmer.html', context)
 
 
-
 def portal_student(request):
     vet_officers = Vet_Officer.objects.all()
     context = {
@@ -33,239 +34,190 @@ def clinical_approach(request):
 
 
 def sick_approach(request):
-    # if request.method == "POST":
-    #     form = forms.SickApproachForm(request.POST)
+    if request.method == "POST":
+        form = SickApproachForm(request.POST)
+        if form.is_valid():
+            vet_sick_form = Vet_Forms(is_sick_approach_form=True)
+            vet_sick_form.save()
+            form.save()
+            messages.success(request, 'Details  Succesfully Saved')
+            return redirect('vet-portal')    
 
-    #     if form.is_valid():
-    #         form.is_sick_approach_form = True
-    #         form.farm_name = form.cleaned_data.get('farm_name')
-    #         form.species_affected = form.cleaned_data.get('species_affected')            
-    #         form.num_of_species_affected = form.cleaned_data.get('num_of_species_affected')
-    #         form.form = Sick_Approach_Form.objects.create(form=form)
-    #         form.disease_nature = form.cleaned_data.get('nature_of_disease')
-    #         form.clinical_sign = form.cleaned_data.get('clinical_sign')
-    #         form.disease_diagnosis = form.cleaned_data.get('disease_diagnosis')
-    #         form.differential_diagnosis = form.cleaned_data.get('differential_diagnosis')
-    #         form.final_diagnosis = form.cleaned_data.get('final_diagnosis')
-    #         form.sickness_duration = form.cleaned_data.get('sickness_duration')
-    #         form.sickness_history = form.cleaned_data.get('sickness_history')
-    #         form.drug_choices = form.cleaned_data.get('drug_choice')
-    #         form.treatment_duration = form.cleaned_data.get('treatment_duration')
-    #         form.start_dose_date = form.cleaned_data.get('start_dose_date')
-    #         form.prognosis = form.cleaned_data.get('prognosis')
-    #         form.harmony_with_clinic_signs_and_lab = form.cleaned_data.get('pathological_conditions_in_harmony_with_the_clinic_signs_and_lab_reports')
-    #         form.cause_of_death_if_in_no_harmony = form.cleaned_data.get('cause_of_the_death_if_no')
-    #         form.disease_one_of_the_zoonotic = form.cleaned_data.get('disease_zoonotic')
-    #         form.advice_given_if_zoonotic = form.cleaned_data.get('advice_given_if_zoonotic')
-    #         form.relapse = form.cleaned_data.get('relapse')
-    #         form.cause_if_relapse = form.cleaned_data.get('cause_if_relapse')
-    #         form.save()
-            
+    else:
+        form = SickApproachForm()
 
-    #     # if form.is_valid():
-    #     #     form.save()
-    #     #     farm_name = form.cleaned_data.get('username')
-    #     #     messages.success(request,f'Details for {farm_name} Succesfully Saved')
-    #     #     return redirect('clinical-approach')
+    context = {
+        'form':form,
+        'name':'Sick Approach Form'
+         }
+    return render(request, 'portals/vet_form.html', context) 
 
-    # else:
-    #     form = forms.SickApproachForm()
-
-    # context = {
-    #     'sick_approach_form':form
-    #     }
-    return render(request, 'portals/sick_approach.html') 
-
-
-
-
-
-
-
-# class SickApproachFormView(CreateView):
-# 	def get_success_url(form):
-# 		return reverse('vet-portal')
-        
-# 	model = Sick_Approach_Form
-# 	template_name = 'portals/sick_approach.html'
-# 	form_class = forms.SickApproachForm
-	
-# 	def get_context_data(form, **kwargs):
-# 		context = super(SickApproachFormView, form).get_context_data(**kwargs)
-# 		context['sick_approach_form'] = form.form_class
-# 		return context
 
 def dead_approach(request):
-    # if request.method == "POST":
-    #     form = forms.DeadApproachForm(request.POST)
+    if request.method == "POST":
+        form = DeathApproachForm(request.POST)
+        if form.is_valid():
+            vet_death_form = Vet_Forms(is_dead_approach_form=True)
+            vet_death_form.save() 
+            form.save()
+            messages.success(request, 'Details  Succesfully Saved')
+            return redirect('vet-portal')    
 
-    #     if form.is_valid():
-    #         form.save()
-    #         farm_name = form.cleaned_data.get('farm_name')
-    #         messages.success(request,f'Details for {farm_name} Succesfully Saved')
-    #         return redirect('clinical-approach')
+    else:
+        form = DeathApproachForm()
 
-    # else:
-    #     form = forms.DeadApproachForm()
+    context = {
+        'form':form,
+        'name':'Death Approach Form'
+         }
+    return render(request, 'portals/vet_form.html', context)   
 
-    # context = {
-    #     'dead_approach_form':form
-    # }
-    return render(request, 'portals/dead_approach.html', context)  
 
 def surgical_approach(request):
-    # if request.method == "POST":
-    #     form = forms.SurgicalApproachForm(request.POST)
+    if request.method == "POST":
+        form = SurgicalApproachForm(request.POST)
+        if form.is_valid():
+            vet_surgical_form = Vet_Forms(is_dead_approach_form=True)
+            vet_surgical_form.save() 
+            form.save()
+            messages.success(request, 'Details  Succesfully Saved')
+            return redirect('vet-portal')    
 
-    #     if form.is_valid():
-    #         form.save()
-    #         farm_name = form.cleaned_data.get('farm_name')
-    #         messages.success(request,f'Details for {farm_name} Succesfully Saved')
-    #         return redirect('clinical-approach')
+    else:
+        form = SurgicalApproachForm()
 
-    # else:
-    #     form = forms.SurgicalApproachForm()
-
-    # context = {
-    #     'surgical_approach_form':form
-    # }
-    return render(request, 'portals/surgical_approach.html')  
+    context = {
+        'form':form,
+        'name':'Surgical Approach Form'
+         }
+    return render(request, 'portals/vet_form.html', context) 
 
 
 def deworming(request):
-    # if request.method == "POST":
-    #     form = forms.DewormingForm(request.POST)
+    if request.method == "POST":
+        form = DewormingForm(request.POST)
+        if form.is_valid():
+            vet_deworming_form = Vet_Forms(is_dead_approach_form=True)
+            vet_deworming_form.save() 
+            form.save()
+            messages.success(request, 'Details  Succesfully Saved')
+            return redirect('vet-portal')    
 
-    #     if form.is_valid():
-    #         form.save()
-    #         farm_name = form.cleaned_data.get('username')
-    #         messages.success(request,f'Details for {deworming} Succesfully Saved')
-    #         return redirect('deworming')
+    else:
+        form = DewormingForm()
 
-    # else:
-    #     form = forms.DewormingForm()
-
-    # context = {
-    #     'deworming_form':form
-    # }
-    return render(request, 'portals/deworming.html') 
+    context = {
+        'form':form,
+        'name':'Deworming Form'
+         }
+    return render(request, 'portals/vet_form.html', context)
 
     
 def vaccination(request):
-    # if request.method == "POST":
-    #     form = forms.vaccination_form(request.POST)
+    if request.method == "POST":
+        form = VaccinationForm(request.POST)
+        if form.is_valid():
+            vet_vaccination_form = Vet_Forms(is_vaccination_form=True)
+            vet_vaccination_form.save() 
+            form.save()
+            messages.success(request, 'Details  Succesfully Saved')
+            return redirect('vet-portal')    
 
-    #     if form.is_valid():
-    #         form.save()
-    #         farm_name = form.cleaned_data.get('username')
-    #         messages.success(request,f'Details for {vaccination} Succesfully Saved')
-    #         return redirect('vaccination')
+    else:
+        form = VaccinationForm()
 
-    # else:
-    #     form = forms.vaccination_form()
-
-    # context = {
-    #     'vaccination_form':form
-    # }
-    return render(request, 'portals/vaccination.html')
+    context = {
+        'form':form,
+        'name':'Vaccination Form'
+         }
+    return render(request, 'portals/vet_form.html', context)
 
 
 def breeding_record(request):
-    return render(request, 'portals/breeding_record.html')
+    ...
 
 def artificial_insemination(request):
-    # if request.method == "POST":
-    #     form = forms.ArtificialInseminationForm(request.POST)
+    if request.method == "POST":
+        form = ArtificialInseminationForm(request.POST)
+        if form.is_valid():
+            vet_ai_form = Vet_Forms(is_artificial_insemination_form=True)
+            vet_ai_form.save() 
+            form.save()
+            messages.success(request, 'Details  Succesfully Saved')
+            return redirect('vet-portal')    
 
-    #     if form.is_valid():
-    #         form.save()
-    #         farm_name = form.cleaned_data.get('username')
-    #         messages.success(request,f'Details for {farm_name} Succesfully Saved')
-    #         return redirect('artificial-insemination')
+    else:
+        form = ArtificialInseminationForm()
 
-    # else:
-    #     form = forms.ArtificialInseminationForm()
-
-    # context = {
-    #     'artificial_insemination_form':form
-    # }
-    return render(request, 'portals/artificial_insemination.html') 
+    context = {
+        'form':form,
+        'name':'Artificial Insemination Form'
+         }
+    return render(request, 'portals/vet_form.html', context) 
 
 
 def calf_registration(request):
-    # if request.method == "POST":
-    #     form = forms.CalfRegistrationForm(request.POST)
+    if request.method == "POST":
+        form = CalfRegistrationForm(request.POST)
+        if form.is_valid():
+            vet_calf_form = Vet_Forms(is_calf_registration_form=True)
+            vet_calf_form.save() 
+            form.save()
+            messages.success(request, 'Details  Succesfully Saved')
+            return redirect('vet-portal')    
 
-    #     if form.is_valid():
-    #         form.save()
-    #         farm_name = form.cleaned_data.get('username')
-    #         messages.success(request,f'Details for {farm_name} Succesfully Saved')
-    #         return redirect('calf-registration')
+    else:
+        form = CalfRegistrationForm()
 
-    # else:
-    #     form = forms.CalfRegistrationForm()
-
-    # context = {
-    #     'calf_registration_form':form
-    # }
-    return render(request, 'portals/calf_registration.html')
+    context = {
+        'form':form,
+        'name':'Calf Registration Form'
+         }
+    return render(request, 'portals/vet_form.html', context) 
 
 
 def livestock_inventory(request):
-    # if request.method == "POST":
-    #     form = forms.LivestockInventoryForm(request.POST)
+    if request.method == "POST":
+        form = LivestockInventoryForm(request.POST)
+        if form.is_valid():
+            vet_inventory_form = Vet_Forms(is_livestock_inventory_form=True)
+            vet_inventory_form.save() 
+            form.save()
+            messages.success(request, 'Details  Succesfully Saved')
+            return redirect('vet-portal')    
 
-    #     if form.is_valid():
-    #         form.save()
-    #         farm_name = form.cleaned_data.get('username')
-    #         messages.success(request,f'Details for {farm_name} Succesfully Saved')
-    #         return redirect('livestock-inventory')
+    else:
+        form = LivestockInventoryForm()
 
-    # else:
-    #     form = forms.LivestockInventoryForm()
-
-    # context = {
-    #     'livestock_inventory_form':form
-    # }
-    return render(request, 'portals/livestock_inventory.html')
+    context = {
+        'form':form,
+        'name':'Livestock Inventory Form'
+         }
+    return render(request, 'portals/vet_form.html', context) 
 
 
 def pregnancy_diagnosis(request):
-    # if request.method == "POST":
-    #     form = forms.PregnancyDiagnosisForm(request.POST)
+    if request.method == "POST":
+        form = PregnancyDiagnosisForm(request.POST)
+        if form.is_valid():
+            vet_preg_form = Vet_Forms(is_pregnancy_diagnosis_form=True)
+            vet_preg_form.save() 
+            form.save()
+            messages.success(request, 'Details  Succesfully Saved')
+            return redirect('vet-portal')    
 
-    #     if form.is_valid():
-    #         form.save()
-    #         farm_name = form.cleaned_data.get('username')
-    #         messages.success(request,f'Details for {farm_name} Succesfully Saved')
-    #         return redirect('pregnancy_diagnosis')
+    else:
+        form = PregnancyDiagnosisForm()
 
-    # else:
-    #     form = forms.PregnancyDiagnosisForm()
-
-    # context = {
-    #     'pregnancy_diagnosis_form':form
-    # }
-    return render(request, 'portals/pregnancy_diagnosis.html')
+    context = {
+        'form':form,
+        'name':'Pregnancy Diagnosis Form'
+         }
+    return render(request, 'portals/vet_form.html', context)
     
 
 def consultation(request):
-    # if request.method == "POST":
-    #     form = forms.FarmConsultationForm(request.POST)
-
-    #     if form.is_valid():
-    #         form.save()
-    #         farm_name = form.cleaned_data.get('username')
-    #         messages.success(request,f'Details for {consultation} Succesfully Saved')
-    #         return redirect('consultation')
-
-    # else:
-    #     form = forms.FarmConsultationForm()
-
-    # context = {
-    #     'consultation_form':form
-    # }
-    return render(request, 'portals/consultation.html')
+    ...
 
 
 

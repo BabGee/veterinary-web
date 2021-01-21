@@ -1,183 +1,78 @@
 from django import forms
+from django.forms import ModelForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
-from .models import Vet_Officer, Farmer, Student, Vet_Forms, Sick_Approach_Form, Farm
+
+from portals.models import Vet_Forms, Sick_Approach_Form, Death_Approach_Form, Surgical_Approach_Form, Deworming_Form, Vaccination_Form, Artificial_Insemination_Form, Calf_Registration_Form, Livestock_Inventory_Form, Pregnancy_Diagnosis_Form
 
 User = get_user_model()
 
-class VetOfficerSignUpForm(UserCreationForm):
-	first_name = forms.CharField(
-		max_length=50,
-		min_length=4,
-		required=True,
-		widget=forms.TextInput(
-				attrs={
-					'placeholder': 'First Name',
-					'class': 'form-control'
-				}
-			)
-		)
-	last_name = forms.CharField(
-		max_length=30,
-		required=True,
-		widget=forms.TextInput(
-				attrs={
-					'placeholder': 'Last Name',
-					'class': 'form-control'
-				}
-			)
-		)
-		
-	email = forms.EmailField(
-		max_length=254,
-		widget=forms.EmailInput(
-			attrs={
-				'placeholder': 'Email',
-				'class': 'form-control'
-			}
-		)
-	)
-	phone_number = forms.RegexField(regex=r'^\+?1?\d{9,12}$')
-	kvb_number = forms.IntegerField()
-	
-	password1 = forms.CharField(
-		label='',
-		max_length=30,
-		min_length=8,
-		required=True,
-		widget=forms.PasswordInput(
-			attrs={
-				'placeholder': 'Password',
-				'class': 'form-control'
-			}
-		)
-	)
 
-	password2 = forms.CharField(
-		label='',
-		max_length=30,
-		min_length=8,
-		required=True,
-		widget=forms.PasswordInput(
-			attrs={
-				'placeholder': 'Confirm Password',
-				'class': 'form-control'
-			}
-		)
-	)
-	
-	class Meta(UserCreationForm.Meta):
-		model = User
-		fields = ('username','first_name','last_name','kvb_number','phone_number','email','password1', 'password2',)
-		
-	@transaction.atomic
-	def save(self):
-		user = super().save(commit=False)
-		user.is_vet_officer = True
-		user.first_name = self.cleaned_data.get('first_name')
-		user.last_name = self.cleaned_data.get('last_name')
-		user.email = self.cleaned_data.get('email')
-		user.phone_number = self.cleaned_data.get('phone_number')
-		user.save()
-		vet_officer = Vet_Officer.objects.create(user=user)
-		vet_officer.kvb_number = self.cleaned_data.get('kvb_number')
-		vet_officer.save()
-		return user
-	
-class FarmerSignUpForm(UserCreationForm):
-	first_name = forms.CharField(
-		max_length=50,
-		min_length=4,
-		required=True,
-		widget=forms.TextInput(
-				attrs={
-					'placeholder': 'First Name',
-					'class': 'form-control'
-				}
-			)
-		)
-	last_name = forms.CharField(
-		max_length=30,
-		required=True,
-		widget=forms.TextInput(
-				attrs={
-					'placeholder': 'Last Name',
-					'class': 'form-control'
-				}
-			)
-		)
-	email = forms.EmailField()
-	phone_number = forms.RegexField(regex=r'^\+?1?\d{9,12}$')
-	farm_name  = forms.CharField(max_length=20)
-	location = forms.CharField(max_length=30)
+class SickApproachForm(ModelForm):
+	class Meta:
+		model = Sick_Approach_Form
+		exclude = ['vet_form', 'report_created_on',]
 
-	class Meta(UserCreationForm.Meta):
-		model = User
-		fields = ['username','first_name','last_name','farm_name','email', 'location','password1', 'password2']
-			
-	@transaction.atomic
-	def save(self):
-		user = super().save(commit=False)
-		user.is_farmer = True
-		user.first_name = self.cleaned_data.get('first_name')
-		user.last_name = self.cleaned_data.get('last_name')
-		user.email = self.cleaned_data.get('email')
-		user.phone_number = self.cleaned_data.get('phone_number')
-		user.save()
-		farmer = Farmer.objects.create(user=user)
-		farmer.farm_name = self.cleaned_data.get('farm_name')
-		farmer.location = self.cleaned_data.get('location')
-		farmer.save()
-		return user
 
-class StudentSignUpForm(UserCreationForm):
-	first_name = forms.CharField(
-		max_length=10,
-		min_length=4,
-		required=True,
-		widget=forms.TextInput(
-				attrs={
-					'placeholder': 'First Name',
-					'class': 'form-control'
-				}
-			)
-		)
-	last_name = forms.CharField(
-		max_length=30,
-		required=True,
-		widget=forms.TextInput(
-				attrs={
-					'placeholder': 'Last Name',
-					'class': 'form-control'
-				}
-			)
-		)
-	email = forms.EmailField()
-	phone_number = forms.RegexField(regex=r'^\+?1?\d{9,12}$')
-	student_number = forms.CharField(max_length=20)
-	college_name = forms.CharField(max_length=20)
-	location = forms.CharField(max_length=30)
+class DeathApproachForm(ModelForm):
+	class Meta:
+		model = Death_Approach_Form
+		exclude = ['vet_form', 'report_created_on',]
 
-	class Meta(UserCreationForm.Meta):
-		model = User
-		fields = ['username','first_name','last_name','student_number','college_name', 'phone_number', 'email', 'location','password1', 'password2']	
 
-	@transaction.atomic
-	def save(self):
-		user = super().save(commit=False)
-		user.is_student = True
-		user.first_name = self.cleaned_data.get('first_name')
-		user.last_name = self.cleaned_data.get('last_name')
-		user.email = self.cleaned_data.get('email')
-		user.phone_number = self.cleaned_data.get('phone_number')
-		user.save()
-		student = Student.objects.create(user=user)
-		student.student_number = self.cleaned_data.get('student_number')
-		student.college_name = self.cleaned_data.get('college_name')
-		student.location = self.cleaned_data.get('location')
-		student.save()
-		return user
+class SurgicalApproachForm(ModelForm):
+	class Meta:
+		model = Surgical_Approach_Form
+		exclude = ['vet_form', 'report_created_on',]
+
+
+class DewormingForm(ModelForm):
+	class Meta:
+		model = Deworming_Form
+		exclude = ['vet_form', 'report_created_on',]
+
+
+class VaccinationForm(ModelForm):
+	class Meta:
+		model = Vaccination_Form
+		exclude = ['vet_form', 'report_created_on',]
+
+
+class ArtificialInseminationForm(ModelForm):
+	class Meta:
+		model = Artificial_Insemination_Form
+		exclude = ['vet_form', 'report_created_on',]
+
+
+class CalfRegistrationForm(ModelForm):
+	class Meta:
+		model = Calf_Registration_Form
+		exclude = ['vet_form', 'report_created_on',]
+
+
+class LivestockInventoryForm(ModelForm):
+	class Meta:
+		model = Livestock_Inventory_Form
+		exclude = ['vet_form', 'report_created_on',]
+
+
+class PregnancyDiagnosisForm(ModelForm):
+	class Meta:
+		model = Pregnancy_Diagnosis_Form
+		exclude = ['vet_form', 'report_created_on',]		
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # SPECIES_CHOICES = (
@@ -280,49 +175,6 @@ class StudentSignUpForm(UserCreationForm):
 # 	('L','Late')
 # )
 
-# class SickApproachForm(forms.Form):
-# 	farm_name = forms.ModelChoiceField(queryset=Farm.objects.distinct())
-# 	species_affected = forms.ChoiceField(widget=forms.RadioSelect, choices=SPECIES_CHOICES)	
-# 	num_of_species_affected = forms.IntegerField(required=False)
-# 	nature_of_disease = forms.ChoiceField(widget=forms.RadioSelect,choices=DISEASE_CHOICES)
-# 	clinical_sign = forms.CharField(required=True)
-# 	disease_diagnosis = forms.ChoiceField(widget=forms.RadioSelect, choices=DIAGNOSIS_CHOICES)
-# 	differential_diagnosis = forms.CharField(required=False)
-# 	final_diagnosis = forms.CharField(required=False)
-# 	sickness_duration = forms.CharField(required=True)
-# 	sickness_history = forms.CharField(required=False)
-# 	drug_choice = forms.CharField(required=True)
-# 	treatment_duration = forms.CharField(required=False)
-# 	start_dose_date = forms.DurationField(required=True)
-# 	prognosis = forms.ChoiceField(widget=forms.RadioSelect,choices=PROGNOSIS_CHOICES)
-# 	pathological_conditions_in_harmony_with_the_clinic_signs_and_lab_reports = forms.ChoiceField(widget=forms.RadioSelect, choices=PICK_CHOICES)
-# 	cause_of_the_death_if_no = forms.CharField(required=False)
-# 	disease_zoonotic = forms.CharField(required=False)
-# 	advice_given_if_zoonotic= forms.CharField(required=False)
-# 	relapse = forms.ChoiceField(widget=forms.RadioSelect, choices=PICK_CHOICES)
-# 	cause_if_relapse = forms.CharField(required=False)
-	
-
-	
-# class DeadApproachForm(forms.Form):
-# 	farm_name = forms.CharField(required=True)
-# 	species_affected = forms.ChoiceField(widget=forms.RadioSelect, choices=SPECIES_CHOICES)	
-# 	sex_of_the_animal= forms.ChoiceField(widget=forms.RadioSelect, choices=SEX_CHOICES)	
-# 	Age_of_the_animal= forms.IntegerField(required=False)
-# 	Number_animals_that_died = forms.IntegerField(required=False)
-# 	When_was_the_animal_reported = forms.CharField(required=True)
-# 	What_was_the_history_of_the_case =forms.CharField(required=True)
-# 	State_the_mortality_rate_of_the_case = forms.CharField(required=True)
-# 	At_what_time_the_animal_died = forms.IntegerField(required=False)
-# 	What_are_the_signs_of_the_cadever_on_the_ground = forms.CharField(required=True)
-# 	Did_you_open_up_the_carcass_for_the_pm = forms.ChoiceField(widget=forms.RadioSelect, choices=PICK_CHOICES)
-# 	If_yes_What_were_the_signs_the_pathalogical_conditions = forms.CharField(required=False)
-# 	If_no_what_could_have_been_the_reason = forms.CharField(required=False)
-# 	Did_send_any_sample_to_the_laboratory = forms.ChoiceField(widget=forms.RadioSelect, choices=PICK_CHOICES)
-# 	If_yes_what_was_the_laboratory_report = forms.CharField(required=False)
-# 	Is_the_cause_of_dead_notifiable = forms.ChoiceField(widget=forms.RadioSelect, choices=PICK_CHOICES)
-# 	IF_yes_send_message_to_relevant_body = forms.CharField(required=False)
-# 	What_were_the_necessary_intervention_in_regard_to_the_cause_of_the_dead = forms.CharField(required=False)
 
 # class SurgicalApproachForm(forms.Form):
 # 	farm_name = forms.CharField(required=True)
@@ -445,6 +297,7 @@ class StudentSignUpForm(UserCreationForm):
 # 	Attach_photos_of_your_animal = forms.CharField(required=True)
 # 	Who_normally_treat_your_animals = forms.CharField(required=True)
 # 	Give_the_name_of_the_veterinary_offier_in_charge_of_your_livestock = forms.CharField(required=True)
+
 # class FarmConsultationForm(forms.Form):
 # 	Name_of_the_farm = forms.CharField(required=True)
 # 	Name_of_the_owner = forms.CharField(required=True)
