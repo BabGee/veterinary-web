@@ -2,8 +2,22 @@ from django.shortcuts import render, redirect
 from user.models import Vet_Officer
 from .forms import SickApproachForm, DeathApproachForm, SurgicalApproachForm, DewormingForm, VaccinationForm, ArtificialInseminationForm, CalfRegistrationForm, LivestockInventoryForm, PregnancyDiagnosisForm
 from django.contrib import messages
+#from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import user_passes_test
 from portals.models import Vet_Forms
 
+
+def vet_check(request):
+    return request.is_vet_officer
+
+def farmer_check(request):
+    return request.is_farmer
+
+def student_check(request):
+    return request.is_student    
+
+
+@user_passes_test(vet_check, login_url='login')
 def portal_vet(request):
     vet_officers = Vet_Officer.objects.all()
     context = {
@@ -11,7 +25,7 @@ def portal_vet(request):
     }
     return render(request, 'portals/indexvet.html', context)
 
-
+@user_passes_test(farmer_check, login_url='login')
 def portal_farmer(request):
     vet_officers = Vet_Officer.objects.all()
     context = {
@@ -19,7 +33,7 @@ def portal_farmer(request):
     }
     return render(request, 'portals/indexfarmer.html', context)
 
-
+@user_passes_test(student_check, login_url='login')
 def portal_student(request):
     vet_officers = Vet_Officer.objects.all()
     context = {
