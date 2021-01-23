@@ -41,14 +41,14 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{% url 'clinical-approach' %}">SickApproachForm</a></li>
+                    <li><a href="{% url 'sick-approach' %}">SickApproachForm</a></li>
                     <li><a href="{% url 'dead-approach' %}">DeadApproachForm</a></li>
                     <li><a href="{% url 'surgical-approach' %}">SurgicalApproachForm</a></li>
                     <li><a href="{% url 'deworming' %}">DewormingForm</a></li>
                     <li><a href="{% url 'vaccination' %}">vaccination_form</a></li>
                     <li><a href="{% url 'artificial-insemination' %}">ArtificialInseminationForm</a></li>
                     <li><a href="{% url 'calf-registration' %}">CalfRegistrationForm</a></li>
-                    <li><a href="{% url 'livestock-inventory' %}">LivestockInventoryForm</a></li>
+                    <li><a href="{% url 'artificial-insemination' %}">LivestockInventoryForm</a></li>
                     <li><a href="">FarmConsultationForm</a></li>
                     <li><a href="{% url 'pregnancy_diagnosis' %}">PregnancyDiagnosisForm</a></li>
                 </ul>
@@ -76,7 +76,7 @@
             <i class="fa fa-tachometer"></i>
         </div>
         <div class="header-title">
-            <h1> DIMIX TRADERS</h1>
+            <h1> SoinVet</h1>
             <small> Welcome Back {{user.username|default:'Guest' }}!</small>
             <ol class="breadcrumb hidden-xs">
                 <li><a href="{% url 'index' %}"><i class="pe-7s-home"></i> Home</a></li>
