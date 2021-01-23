@@ -20,8 +20,8 @@ You will find hereafter what I use to develop and to run the project
 * pipenv (not mandatory but highly recommended)
 
 ### Installing
-Get a local copy of the project directory by cloning "fashion_web" from github. `git clone git@github.com:BabGee/vetWeb.git` then cd into vetWeb `cd vetWeb`
-N/B: Clone using SSH
+Get a local copy of the project directory by cloning "veterinary_web" from github. `git clone git@github.com:BabGee/veterinary-web.git`
+N/B: I used SSH clone
 
 I use pipenv for developing this project so I recommend you to create a virtual environment and activate it, `python -m pipenv shell`  and to install the requirements `python -m pip install -r requirements.txt`.
 
