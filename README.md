@@ -29,7 +29,7 @@ Then follow these steps:
 1. Move to root folder `cd vetWeb/soin`
 2. Create a `.env` file in the root folder, provide the required database information  to the `.env` file (.env.example file is provided to help set this information)
 3. Create the tables with the django command line `python manage.py makemigrations` then `python manage.py migrate`
-4. Create your admin log in credentials to add Products in the backend `python manage.py createsuperuser`
+4. Create your admin log in credentials `python manage.py createsuperuser`
 5. Finally, run the django server `python manage.py runserver `
 
 
