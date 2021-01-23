@@ -23,7 +23,7 @@ You will find hereafter what I use to develop and to run the project
 Get a local copy of the project directory by cloning "fashion_web" from github. `git clone git@github.com:BabGee/vetWeb.git` then cd into vetWeb `cd vetWeb`
 N/B: Clone using SSH
 
-I use pipenv for developing this project so I recommend you to create a virtual environment and activate it, `pipenv shell`  and to install the requirements `pip install -r requirements.txt`.
+I use pipenv for developing this project so I recommend you to create a virtual environment and activate it, `python -m pipenv shell`  and to install the requirements `python -m pip install -r requirements.txt`.
 
 Then follow these steps:
 1. Move to root folder `cd vetWeb/soin`
